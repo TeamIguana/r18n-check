@@ -1,0 +1,10 @@
+a:
+  leaf: value
+b:
+  leaf2: value2
+  asd:
+     its_child: one
+     its_child2: two
+c: !!pl
+    1: '%1 xxx'
+    n: '%1 yyy'
