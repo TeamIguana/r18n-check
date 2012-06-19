@@ -6,6 +6,12 @@ module R18n
       end
     end
 
+    def check_bad_word(translation, bad_word)
+      visit(translation, translation) do |other, key|
+        assert_is_key_correct(other, key, bad_word)
+      end
+    end
+
     def visit(translations, other, &block)
       data= translations.instance_eval { @data }
       if data.nil?
@@ -25,19 +31,6 @@ module R18n
       end
     end
 
-    def check_bad_word(translation, bad_word)
-      visit(translation, translation) do |other, key|
-        assert_is_key_correct(other, key, bad_word)
-      end
-    end
-
-    def assert_is_key_correct(other, key, bad_word)
-      value = other.instance_eval { @data }
-      if value.to_s.match(/#{bad_word}/i)
-        raise error_message(key, other)
-      end
-    end
-
     def assert_typed_pl_keys(data, key, other)
       evaluated = other.instance_eval { @data }
       evaluated.each do |k, v|
@@ -53,6 +46,13 @@ module R18n
       evaluated = other.instance_eval { @data }
       unless evaluated.nil?
         raise error_message(key, other) unless evaluated.key?(key)
+      end
+    end
+
+    def assert_is_key_correct(other, key, bad_word)
+      value = other.instance_eval { @data }
+      if value.to_s.match(/#{bad_word}/i)
+        raise error_message(key, other)
       end
     end
 
