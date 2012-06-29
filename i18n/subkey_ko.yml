@@ -1,2 +1,6 @@
 key:
- subkey: bad
+ subkey1: ok
+ subkey2:
+   xx: yy
+   aa: bb
+   subkey3: bad

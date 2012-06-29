@@ -1,7 +1,6 @@
 a:
   leaf: value
 b:
-  leaf2: value2
   asd:
      its_child: one
      its_child2: two
