@@ -1,7 +1,7 @@
 require "yaml"
 
 module R18n
-  class YamlCheck
+  class R18nCheck
     def check(file_name, block)
       file="#{file_name}.yml"
       root = YAML::load(IO.read("#{file}"))

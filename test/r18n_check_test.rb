@@ -3,7 +3,7 @@ require 'bundler/setup'
 require 'test/unit'
 require 'r18n-core'
 
-require '../lib/r18n/yaml_check'
+require '../lib/r18n/r18n_check'
 
 
 class R18nCheckTest < Test::Unit::TestCase
@@ -11,7 +11,7 @@ class R18nCheckTest < Test::Unit::TestCase
     italian=file_full_path('it-it')
     french=file_full_path('fr-fr')
 
-    R18n::YamlCheck.new.check_presence(italian, french)
+    R18n::R18nCheck.new.check_presence(italian, french)
   end
 
   def test_it_signals_missing_stuff
@@ -19,7 +19,7 @@ class R18nCheckTest < Test::Unit::TestCase
     spain=file_full_path('es-es')
 
     assert_raise_message("problems on translation [b -> leaf2] of <<#{file_full_path('es-es')}.yml>>") {
-      R18n::YamlCheck.new.check_presence(italian, spain)
+      R18n::R18nCheck.new.check_presence(italian, spain)
     }
   end
 
@@ -56,12 +56,12 @@ class R18nCheckTest < Test::Unit::TestCase
   end
 
   def assert_no_problem_for(file_name)
-    assert_nothing_raised { R18n::YamlCheck.new.check_bad_word(file_name, 'bad') }
+    assert_nothing_raised { R18n::R18nCheck.new.check_bad_word(file_name, 'bad') }
   end
 
   def assert_raise_problem_for(filename, key)
     assert_raise_message("problems on translation [#{key}] of <<#{filename}.yml>>") {
-      R18n::YamlCheck.new.check_bad_word(filename, 'bad')
+      R18n::R18nCheck.new.check_bad_word(filename, 'bad')
     }
   end
 end
