@@ -2,13 +2,13 @@ require "yaml"
 
 module R18n
   class Check
-    def check_presence(main_t, to_check_t)
-      to_check_file_name="#{to_check_t}.yml"
-      other_t = YAML::load(IO.read("#{to_check_file_name}"))
+    def check_presence(base_app_path, other_app_path)
+      file_to_check="#{other_app_path}.yml"
+      other_t = YAML::load(IO.read(file_to_check))
       block = lambda { |value, file, path|
-        assert_presence(path, other_t, to_check_file_name)
+        assert_presence(path, other_t, file_to_check)
       }
-      check(main_t, block)
+      check(base_app_path, block)
     end
 
     def check_bad_word(file_name, bad_word)
@@ -34,12 +34,12 @@ module R18n
       end
     end
 
-    def assert_presence(path, to_check_t, to_check_file_name)
+    def assert_presence(path, to_check_t, file_to_check)
       current_path = to_check_t
       path.each do |xx|
         current_path = current_path[xx]
+        raise_with_message(file_to_check, path) if current_path.nil?
       end
-      raise_with_message(to_check_file_name, path) if current_path.nil?
     end
 
     def assert_is_key_correct(value, file, bad_word, path)

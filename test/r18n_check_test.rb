@@ -5,9 +5,8 @@ require 'r18n-core'
 
 require '../lib/r18n/r18n_check'
 
-
 class R18nCheckTest < Test::Unit::TestCase
-  def test_it_signals_nothing_beause_correct
+  def test_it_signals_nothing_because_correct
     italian=file_full_path('it-it')
     french=file_full_path('fr-fr')
 
@@ -20,6 +19,15 @@ class R18nCheckTest < Test::Unit::TestCase
 
     assert_raise_message("problems on translation [b -> leaf2] of <<#{file_full_path('es-es')}.yml>>") {
       R18n::Check.new.check_presence(italian, spain)
+    }
+  end
+
+  def test_it_signals_missing_full_section
+    italian=file_full_path('it-it')
+    german=file_full_path('de-de')
+
+    assert_raise_message("problems on translation [d -> section -> leaf] of <<#{file_full_path('de-de')}.yml>>") {
+      R18n::Check.new.check_presence(italian, german)
     }
   end
 
