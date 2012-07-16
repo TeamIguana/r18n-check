@@ -4,7 +4,7 @@ module R18n
   class Check
     def check_presence(base_app_path, other_app_path)
       file_to_check="#{other_app_path}.yml"
-      other_t = YAML::load(IO.read(file_to_check))
+      other_t = YAML::load(read_normalized_yaml(file_to_check))
       block = lambda { |value, file, path|
         assert_presence(path, other_t, file_to_check)
       }
@@ -20,7 +20,7 @@ module R18n
 
     def check(file_name, block)
       file="#{file_name}.yml"
-      root = YAML::load(IO.read("#{file}"))
+      root = YAML::load(read_normalized_yaml("#{file}"))
       root.each { |key, value| traverse({key => value}, file, [], block) }
     end
 
@@ -32,6 +32,10 @@ module R18n
       else
         node.values.first.each { |k, v| traverse({k => v}, file, path, block) }
       end
+    end
+
+    def read_normalized_yaml(file_to_check)
+      IO.read(file_to_check).gsub(/\!\!pl/, '')
     end
 
     def assert_presence(path, to_check_t, file_to_check)

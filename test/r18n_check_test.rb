@@ -31,6 +31,15 @@ class R18nCheckTest < Test::Unit::TestCase
     }
   end
 
+  def test_it_signals_missing_pl_subsection
+    italian=file_full_path('it-it')
+    polish=file_full_path('pl-pl')
+
+    assert_raise_message("problems on translation [c -> 1] of <<#{file_full_path('pl-pl')}.yml>>") {
+      R18n::Check.new.check_presence(italian, polish)
+    }
+  end
+
   def test_simple_key_not_contains_bad_word
     assert_no_problem_for(file_full_path('simplekey_ok'))
   end
