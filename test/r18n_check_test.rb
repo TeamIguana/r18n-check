@@ -17,7 +17,7 @@ class R18nCheckTest < Test::Unit::TestCase
     italian=file_full_path('it-it')
     spain=file_full_path('es-es')
 
-    assert_raise_message("problems on translation [b -> leaf2] of <<#{file_full_path('es-es')}.yml>>") {
+    assert_raise_message("es-es: missing [b -> leaf2]") {
       R18n::Check.new.check_presence(italian, spain)
     }
   end
@@ -26,7 +26,7 @@ class R18nCheckTest < Test::Unit::TestCase
     italian=file_full_path('it-it')
     german=file_full_path('de-de')
 
-    assert_raise_message("problems on translation [d -> section -> leaf] of <<#{file_full_path('de-de')}.yml>>") {
+    assert_raise_message("de-de: missing [d -> section -> leaf]") {
       R18n::Check.new.check_presence(italian, german)
     }
   end
@@ -35,7 +35,7 @@ class R18nCheckTest < Test::Unit::TestCase
     italian=file_full_path('it-it')
     polish=file_full_path('pl-pl')
 
-    assert_raise_message("problems on translation [c -> 1] of <<#{file_full_path('pl-pl')}.yml>>") {
+    assert_raise_message("pl-pl: missing [c -> 1]") {
       R18n::Check.new.check_presence(italian, polish)
     }
   end
@@ -77,7 +77,7 @@ class R18nCheckTest < Test::Unit::TestCase
   end
 
   def assert_raise_problem_for(filename, key)
-    assert_raise_message("problems on translation [#{key}] of <<#{filename}.yml>>") {
+    assert_raise_message("#{File.basename(filename)}: missing [#{key}]") {
       R18n::Check.new.check_bad_word(filename, 'bad')
     }
   end

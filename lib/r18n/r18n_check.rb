@@ -53,7 +53,7 @@ module R18n
     end
 
     def raise_with_message(file, path)
-      raise "problems on translation [#{path.join(' -> ')}] of <<#{file}>>"
+      raise "#{File.basename(file, '.yml')}: missing [#{path.join(' -> ')}]"
     end
   end
 end
